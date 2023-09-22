@@ -61,3 +61,27 @@ export async function getPostAndMoreStories(
 ): Promise<{ post: Post; morePosts: Post[] }> {
   return await client.fetch(postAndMoreStoriesQuery, { slug })
 }
+
+export async function getAllTools(client: SanityClient): Promise<Tool[]> {
+  return (await client.fetch(indexQuery)) || []
+}
+
+export async function getAllToolsSlugs(): Promise<Pick<Tool, 'slug'>[]> {
+  const client = getClient()
+  const slugs = (await client.fetch<string[]>(toolSlugsQuery)) || []
+  return slugs.map((slug) => ({ slug }))
+}
+
+export async function getToolBySlug(
+  client: SanityClient,
+  slug: string,
+): Promise<Tool> {
+  return (await client.fetch(toolBySlugQuery, { slug })) || ({} as any)
+}
+
+export async function getToolAndMoreStories(
+  client: SanityClient,
+  slug: string,
+): Promise<{ tool: Tool; moreTools: Tool[] }> {
+  return await client.fetch(toolAndMoreStoriesQuery, { slug })
+}

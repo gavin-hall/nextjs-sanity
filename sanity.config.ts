@@ -19,6 +19,7 @@ import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
 import authorType from 'schemas/author'
 import postType from 'schemas/post'
 import settingsType from 'schemas/settings'
+import toolType from 'schemas/tool'
 
 const title =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
@@ -30,7 +31,7 @@ export default defineConfig({
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [authorType, postType, settingsType],
+    types: [authorType, postType, toolType, settingsType],
   },
   plugins: [
     deskTool({
@@ -44,7 +45,7 @@ export default defineConfig({
     previewUrl({
       base: DRAFT_MODE_ROUTE,
       urlSecretId: previewSecretId,
-      matchTypes: [postType.name, settingsType.name],
+      matchTypes: [postType.name, toolType.name, settingsType.name],
     }),
     // Add an image asset source for Unsplash
     unsplashImageAsset(),

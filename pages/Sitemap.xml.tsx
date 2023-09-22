@@ -66,10 +66,22 @@ export async function getServerSideProps({ res }) {
       }
     })
 
+  // Get list of Tool urls
+  const [tools = []] = await Promise.all([getAllTools(client)])
+  const toolUrls: SitemapLocation[] = tools
+    .filter(({ slug = '' }) => slug)
+    .map((tool) => {
+      return {
+        url: `/tools/${tool.slug}`,
+        priority: 0.5,
+        lastmod: new Date(tool._updatedAt),
+      }
+    })
+
   // ... get more routes here
 
   // Return the default urls, combined with dynamic urls above
-  const locations = [...defaultUrls, ...postUrls]
+  const locations = [...defaultUrls, ...postUrls, ...toolUrls]
 
   // Set response to XML
   res.setHeader('Content-Type', 'text/xml')
